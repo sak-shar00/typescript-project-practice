@@ -2,7 +2,7 @@
 import type {PropsWithChildren } from "react"
 import Header from "./Header"
 
-const layout = ({children}:PropsWithChildren) => {
+const Layout = ({children}:PropsWithChildren) => {
   return (
     <div className="bg-gradient-to-br from-background to-muted ">
      
@@ -20,4 +20,4 @@ const layout = ({children}:PropsWithChildren) => {
   )
 }
 
-export default layout
+export default Layout
