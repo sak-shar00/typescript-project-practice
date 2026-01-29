@@ -2,7 +2,7 @@ import {
   useForecastQuery,
   useReverseGeocodeQuery,
   useWeatherQuery,
-} from "@/hooks/use-weather"
+} from "@/hooks/use-weather";
 import { CurrentWeather } from "../components/CurrentWeather";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
@@ -11,8 +11,9 @@ import { useGeolocation } from "@/hooks/use-geolocation";
 import { WeatherDetails } from "../components/WeatherDetails";
 import { WeatherForecast } from "../components/WeatherForecast";
 import { HourlyTemp } from "../components/HourlyTemp";
-import {Loading}from "../components/Loading"
+import { Loading } from "../components/Loading";
 import { FavoriteCities } from "../components/FavoriteCities";
+import type { GeocodeData } from "@/api/types";
 
 export function WeatherDashboard() {
   const {
@@ -26,7 +27,6 @@ export function WeatherDashboard() {
   const forecastQuery = useForecastQuery(coordinates);
   const locationQuery = useReverseGeocodeQuery(coordinates);
 
-  // Function to refresh all data
   const handleRefresh = () => {
     getLocation();
     if (coordinates) {
@@ -36,11 +36,9 @@ export function WeatherDashboard() {
     }
   };
 
-  if (locationLoading) {
-    return <Loading />;
-  }
+  if (locationLoading) return <Loading />;
 
-  if (locationError) {
+  if (locationError)
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
@@ -54,9 +52,8 @@ export function WeatherDashboard() {
         </AlertDescription>
       </Alert>
     );
-  }
 
-  if (!coordinates) {
+  if (!coordinates)
     return (
       <Alert>
         <MapPin className="h-4 w-4" />
@@ -70,11 +67,11 @@ export function WeatherDashboard() {
         </AlertDescription>
       </Alert>
     );
-  }
 
-const locationName = locationQuery.data?.[0] ?? undefined
+  // ✅ Pick first location safely
+  const locationName: GeocodeData | undefined = locationQuery.data?.[0];
 
-  if (weatherQuery.error || forecastQuery.error) {
+  if (weatherQuery.error || forecastQuery.error)
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
@@ -88,15 +85,13 @@ const locationName = locationQuery.data?.[0] ?? undefined
         </AlertDescription>
       </Alert>
     );
-  }
 
-  if (!weatherQuery.data || !forecastQuery.data) {
-    return <Loading/>;
-  }
+  if (!weatherQuery.data || !forecastQuery.data) return <Loading />;
 
   return (
     <div className="space-y-4">
       <FavoriteCities />
+
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight">My Location</h1>
         <Button
@@ -115,10 +110,7 @@ const locationName = locationQuery.data?.[0] ?? undefined
 
       <div className="grid gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
-          <CurrentWeather
-            data={weatherQuery.data}
-            locationName={locationName}
-          />
+          <CurrentWeather data={weatherQuery.data} locationName={locationName} />
           <HourlyTemp data={forecastQuery.data} />
         </div>
 
