@@ -68,8 +68,8 @@ export function WeatherDashboard() {
       </Alert>
     );
 
-  // Correct type: data may be undefined
-  const locationName: GeocodeData | undefined = locationQuery.data?.[0];
+  
+const locationName = locationQuery.data?.[0] as GeocodeData | undefined;
 
   if (weatherQuery.error || forecastQuery.error)
     return (
@@ -110,15 +110,18 @@ export function WeatherDashboard() {
 
       <div className="grid gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
-          {weatherQuery.data && locationName && (
-            <CurrentWeather data={weatherQuery.data} locationName={locationName} />
+          {locationName && (
+            <CurrentWeather
+              data={weatherQuery.data}
+              locationName={locationName}
+            />
           )}
-          {forecastQuery.data && <HourlyTemp data={forecastQuery.data} />}
+          <HourlyTemp data={forecastQuery.data} />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 items-start">
-          {weatherQuery.data && <WeatherDetails data={weatherQuery.data} />}
-          {forecastQuery.data && <WeatherForecast data={forecastQuery.data} />}
+          <WeatherDetails data={weatherQuery.data} />
+          <WeatherForecast data={forecastQuery.data} />
         </div>
       </div>
     </div>
