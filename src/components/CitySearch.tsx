@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { Search, Loader2, Clock, Star, XCircle } from "lucide-react";
 import { useLocationSearch } from "@/hooks/use-weather";
 import { useSearchHistory } from "@/hooks/use-search-history";
+import type { GeocodeData } from "@/api/types";
 import {
   Command,
   CommandDialog,
@@ -26,7 +27,7 @@ export function CitySearch() {
   const { favorites } = useFavorites();
   const { history, clearHistory, addToHistory } = useSearchHistory();
 
-  const handleSelect = (cityData) => {
+  const handleSelect = (cityData: string) => {
     const [lat, lon, name, country] = cityData.split("|");
 
     addToHistory.mutate({
@@ -38,7 +39,7 @@ export function CitySearch() {
     });
 
     setOpen(false);
-    setQuery(""); // ✅ clear search
+    setQuery("");
     navigate(`/city/${name}?lat=${lat}&lon=${lon}`);
   };
 
@@ -69,7 +70,7 @@ export function CitySearch() {
               </div>
             )}
 
-            {/* No result */}
+            {/* Empty */}
             {!isLoading && query.length > 2 && locations.length === 0 && (
               <CommandEmpty>No cities found.</CommandEmpty>
             )}
@@ -128,14 +129,14 @@ export function CitySearch() {
               <>
                 <CommandSeparator />
                 <CommandGroup heading="Suggestions">
-                  {locations.map((loc) => (
+                  {locations.map((location: GeocodeData) => (
                     <CommandItem
-                      key={`${loc.lat}-${loc.lon}`}
-                      value={`${loc.lat}|${loc.lon}|${loc.name}|${loc.country}`}
+                      key={`${location.lat}-${location.lon}`}
+                      value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
                       onSelect={handleSelect}
                     >
                       <Search className="mr-2 h-4 w-4" />
-                      {loc.name}, {loc.country}
+                      {location.name}, {location.country}
                     </CommandItem>
                   ))}
                 </CommandGroup>

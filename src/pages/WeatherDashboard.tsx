@@ -72,7 +72,7 @@ export function WeatherDashboard() {
     );
   }
 
-const locationName = locationQuery.data?.[0] ?? null;
+const locationName = locationQuery.data?.[0] ?? undefined
 
   if (weatherQuery.error || forecastQuery.error) {
     return (
