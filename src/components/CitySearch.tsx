@@ -24,6 +24,8 @@ export function CitySearch() {
   const navigate = useNavigate();
 
   const { data: locations = [], isLoading } = useLocationSearch(query);
+  const flatLocations: GeocodeData[] = locations.flat(); // 🔥 FIX
+
   const { favorites } = useFavorites();
   const { history, clearHistory, addToHistory } = useSearchHistory();
 
@@ -63,15 +65,13 @@ export function CitySearch() {
           />
 
           <CommandList>
-            {/* Loader */}
             {isLoading && (
               <div className="flex justify-center p-4">
                 <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
 
-            {/* Empty */}
-            {!isLoading && query.length > 2 && locations.length === 0 && (
+            {!isLoading && query.length > 2 && flatLocations.length === 0 && (
               <CommandEmpty>No cities found.</CommandEmpty>
             )}
 
@@ -125,11 +125,11 @@ export function CitySearch() {
             )}
 
             {/* Suggestions */}
-            {locations.length > 0 && (
+            {flatLocations.length > 0 && (
               <>
                 <CommandSeparator />
                 <CommandGroup heading="Suggestions">
-                  {locations.map((location: GeocodeData) => (
+                  {flatLocations.map((location) => (
                     <CommandItem
                       key={`${location.lat}-${location.lon}`}
                       value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
