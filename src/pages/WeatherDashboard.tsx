@@ -18,7 +18,7 @@ export function WeatherDashboard() {
   const {
     coordinates,
     error: locationError,
-    isLoading: locationLoading,
+    loading: locationLoading,
     getLocation,
   } = useGeolocation();
 
@@ -72,7 +72,7 @@ export function WeatherDashboard() {
     );
   }
 
-  const locationName = locationQuery.data?.[0];
+const locationName = locationQuery.data?.[0] ?? null;
 
   if (weatherQuery.error || forecastQuery.error) {
     return (

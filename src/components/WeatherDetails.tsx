@@ -10,8 +10,9 @@ interface WeatherDetailsProps {
 export function WeatherDetails({ data }: WeatherDetailsProps) {
   const { wind, main, sys } = data;
 
-  // Format time using date-fns
-  const formatTime = (timestamp: number) => {
+  // Safe time formatter
+  const formatTime = (timestamp?: number) => {
+    if (!timestamp) return "N/A";
     return format(new Date(timestamp * 1000), "h:mm a");
   };
 
@@ -23,28 +24,32 @@ export function WeatherDetails({ data }: WeatherDetailsProps) {
     return directions[index];
   };
 
+  const windDeg = wind.deg ?? 0;
+
   const details = [
     {
       title: "Sunrise",
-      value: formatTime(sys.sunrise),
+      value: formatTime(sys?.sunrise),
       icon: Sunrise,
       color: "text-orange-500",
     },
     {
       title: "Sunset",
-      value: formatTime(sys.sunset),
+      value: formatTime(sys?.sunset),
       icon: Sunset,
       color: "text-blue-500",
     },
     {
       title: "Wind Direction",
-      value: `${getWindDirection(wind.deg)} (${wind.deg}°)`,
+      value: wind.deg
+        ? `${getWindDirection(windDeg)} (${windDeg}°)`
+        : "N/A",
       icon: Compass,
       color: "text-green-500",
     },
     {
       title: "Pressure",
-      value: `${main.pressure} hPa`,
+      value: main?.pressure ? `${main.pressure} hPa` : "N/A",
       icon: Gauge,
       color: "text-purple-500",
     },
@@ -67,7 +72,9 @@ export function WeatherDetails({ data }: WeatherDetailsProps) {
                 <p className="text-sm font-medium leading-none">
                   {detail.title}
                 </p>
-                <p className="text-sm text-muted-foreground">{detail.value}</p>
+                <p className="text-sm text-muted-foreground">
+                  {detail.value}
+                </p>
               </div>
             </div>
           ))}
