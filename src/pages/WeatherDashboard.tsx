@@ -2,7 +2,7 @@ import {
   useForecastQuery,
   useReverseGeocodeQuery,
   useWeatherQuery,
-} from "@/hooks/use-weather";
+} from "@/hooks/use-weather"
 import { CurrentWeather } from "../components/CurrentWeather";
 import { Alert, AlertDescription, AlertTitle } from "../components/ui/alert";
 import { Button } from "../components/ui/button";
@@ -11,9 +11,8 @@ import { useGeolocation } from "@/hooks/use-geolocation";
 import { WeatherDetails } from "../components/WeatherDetails";
 import { WeatherForecast } from "../components/WeatherForecast";
 import { HourlyTemp } from "../components/HourlyTemp";
-import Loading from "../components/Loading";
-import { FavoriteCities } from "@/components/FavoriteCities";
-
+import {Loading}from "../components/Loading"
+import { FavoriteCities } from "../components/FavoriteCities";
 
 export function WeatherDashboard() {
   const {

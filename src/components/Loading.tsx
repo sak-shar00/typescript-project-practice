@@ -1,6 +1,6 @@
 import { Skeleton } from "./ui/skeleton"
 
-const Loading = () => {
+ export const Loading = () => {
   return (
     <div className="space-y-6">
       <div className="grid gap-3">
@@ -21,4 +21,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+

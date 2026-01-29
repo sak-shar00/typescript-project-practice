@@ -8,7 +8,7 @@ import { WeatherDetails } from "@/components/WeatherDetails";
 import { WeatherForecast } from "@/components/WeatherForecast";
 
 import { FavoriteButton } from "@/components/FavouriteButton";
-import Loading from "@/components/Loading";
+import {Loading} from "@/components/Loading";
 
 export function CityPage() {
   const [searchParams] = useSearchParams();

@@ -1,6 +1,7 @@
 import { Sun,Moon } from "lucide-react";
 import { useTheme } from "../context/theme-provider";
 import { Link } from "react-router-dom";
+import { CitySearch } from "./CitySearch";
 
 const Header = () => {
   const { theme, setTheme } = useTheme()
@@ -18,7 +19,8 @@ const Header = () => {
           />
         </Link>
 <div>
-  
+  {/* search city */}
+  <CitySearch/>
         <div
           onClick={() => setTheme(isDark ? "light" : "dark")}
           className={`flex items-center cursor-pointer transition-transform duration-500 ${isDark ? " rotate-180" : "rotate-0"}` }
